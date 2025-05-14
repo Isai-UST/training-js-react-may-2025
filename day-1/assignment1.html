@@ -1,0 +1,24 @@
+<html>
+    <script>
+        function print(event){
+            // console.log(event.target.value);
+            var h1 = document.getElementById('result');
+            h1.innerText = event.target.value;
+        }
+    </script>
+    <body>
+        <input type="text">
+        <input type="text">
+        <input type="radio" name="gender" id="male" value="male">Male
+        <input type="radio" name="gender" id="female" value="female">Female
+
+        <select onchange="print(event)" name="cars" id="cars">
+            <option value="Volvo">Volvo</option>
+            <option value="Saab">Saab</option>
+            <option value="Mercedes">Mercedes</option>
+            <option value="Audi">Audi</option>
+        </select>
+
+        <h1 id="result"></h1>
+    </body>
+</html>

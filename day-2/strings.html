@@ -1,0 +1,18 @@
+<html>
+    <script>
+        const s1 = "UST"; //string pool
+        const s2 = new String("UST");
+        const s3 = new String("UST");
+        console.log(s1 == s2);
+        console.log(s3 == s2);
+
+        console.log(s1.length);
+        
+        //reverse UST => TSU
+        var reverse = "";
+        for (let i = s1.length; i > 0; i--) {
+            reverse = reverse + s1.charAt(i-1);
+        }
+        console.log(reverse);
+    </script>
+</html>
