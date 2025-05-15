@@ -57,7 +57,7 @@ body {
     font-weight: 500;
 }
 .form-outer form .page .field {
-    width: var(--containerWidth);
+    /* width: var(--containerWidth); */
     height: 45px;
     margin: 45px 0;
     display: flex;
@@ -116,23 +116,23 @@ form .page .btns button.prev {
 form .page .btns button.next {
     margin-left: 3px;
 }
-.container .progress-bar {
+.container /* .progress-bar */ {
     display: flex;
     margin: 40px 0;
     user-select: none;
 }
-.container .progress-bar .step {
+.container /* .progress-bar */ /* .step */ {
     text-align: center;
-    width: 100%;
+    /* width: 100%; */
     position: relative;
 }
-.container .progress-bar .step p {
+.container /* .progress-bar */ /* .step */ p {
     font-weight: 500;
     font-size: 18px;
     color: #000;
     margin-bottom: 8px;
 }
-.progress-bar .step .bullet {
+/* .progress-bar */ /* .step */ .bullet {
     height: 25px;
     width: 25px;
     border: 2px solid #000;
@@ -144,20 +144,20 @@ form .page .btns button.next {
     font-size: 17px;
     line-height: 25px;
 }
-.progress-bar .step .bullet.active {
+/* .progress-bar */ /* .step */ .bullet.active {
     border-color: var(--primary);
     background: var(--primary);
 }
-.progress-bar .step .bullet span {
+/* .progress-bar */ /* .step */ .bullet span {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
 }
-.progress-bar .step .bullet.active span {
+/* .progress-bar */ /* .step */ .bullet.active span {
     display: none;
 }
-.progress-bar .step .bullet:before,
-.progress-bar .step .bullet:after {
+/* .progress-bar */ /* .step */ .bullet:before,
+/* .progress-bar */ /* .step */ .bullet:after {
     position: absolute;
     content: "";
     bottom: 11px;
@@ -166,7 +166,7 @@ form .page .btns button.next {
     width: 44px;
     background: #262626;
 }
-.progress-bar .step .bullet.active:after {
+/* .progress-bar */ /* .step */ .bullet.active:after {
     background: var(--primary);
     transform: scaleX(0);
     transform-origin: left;
@@ -177,15 +177,15 @@ form .page .btns button.next {
         transform: scaleX(1);
     }
 }
-.progress-bar .step:last-child .bullet:before,
-.progress-bar .step:last-child .bullet:after {
+/* .progress-bar */ /* .step */:last-child .bullet:before,
+/* .progress-bar */ /* .step */:last-child .bullet:after {
     display: none;
 }
-.progress-bar .step p.active {
+/* .progress-bar */ /* .step */ p.active {
     color: var(--primary);
     transition: 0.2s linear;
 }
-.progress-bar .step .check {
+/* .progress-bar */ /* .step */ .check {
     position: absolute;
     left: 50%;
     top: 70%;
@@ -193,7 +193,7 @@ form .page .btns button.next {
     transform: translate(-50%, -50%);
     display: none;
 }
-.progress-bar .step .check.active {
+/* .progress-bar */ /* .step */ .check.active {
     display: block;
     color: #fff;
 }
@@ -202,19 +202,19 @@ form .page .btns button.next {
     :root {
         --containerWidth: 400px;
     }
-    .progress-bar .step p {
+    /* .progress-bar */ /* .step */ p {
         display: none;
     }
-    .progress-bar .step .bullet::after,
-    .progress-bar .step .bullet::before {
+    /* .progress-bar */ /* .step */ .bullet::after,
+    /* .progress-bar */ /* .step */ .bullet::before {
         display: none;
     }
-    .progress-bar .step .bullet {
+    /* .progress-bar */ /* .step */ .bullet {
         display: flex;
         align-items: center;
         justify-content: center;
     }
-    .progress-bar .step .check {
+    /* .progress-bar */ /* .step */ .check {
         position: absolute;
         left: 50%;
         top: 50%;
@@ -222,11 +222,11 @@ form .page .btns button.next {
         transform: translate(-50%, -50%);
         display: none;
     }
-    .step {
+    /* .step {
         display: flex;
         align-items: center;
         justify-content: center;
-    }
+    } */
 }
 @media screen and (max-width: 490px) {
     :root {

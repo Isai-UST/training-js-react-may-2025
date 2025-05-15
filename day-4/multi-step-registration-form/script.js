@@ -11,6 +11,9 @@ function initMultiStepForm() {
     const nextButtons = document.querySelectorAll(".next");
     const prevButtons = document.querySelectorAll(".prev");
     const stepsNumber = pages.length;
+    const progressBar = document.getElementById("progressBar");
+
+    progressBar.setAttribute("style", `width: ${100/stepsNumber}%`);
 
     if (progressNumber !== stepsNumber) {
         console.warn(
@@ -37,6 +40,7 @@ function initMultiStepForm() {
                 progressCheck[current - 1].classList.add("active");
                 progressText[current - 1].classList.add("active");
                 current += 1;
+                progressBar.setAttribute("style", `width: ${(100/stepsNumber)*current}%`);
             }
         });
     }
@@ -51,6 +55,7 @@ function initMultiStepForm() {
             progressCheck[current - 2].classList.remove("active");
             progressText[current - 2].classList.remove("active");
             current -= 1;
+            progressBar.setAttribute("style", `width: ${(100/stepsNumber)*current}%`);
         });
     }
     submitBtn.addEventListener("click", function () {
@@ -76,10 +81,32 @@ function initMultiStepForm() {
         });
         console.log(data);
         localStorage.setItem("data", JSON.stringify(data));
-        // setTimeout(function () {
-        //     alert("Your Form Successfully Signed up");
-        //     location.reload();
-        // }, 800);
+
+        // const options = {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify(data)
+        // };
+
+        // fetch('http://localhost:3000/data', options)
+        //     .then(response => {
+        //         if (!response.ok) {
+        //             throw new Error(`HTTP error! status: ${response.status}`);
+        //         }
+        //         return response.json();
+        //     })
+        //     .then(result => {
+        //         console.log('Success:', result);
+        //     })
+        //     .catch(error => {
+        //         console.error('Error:', error);
+        //     });
+        setTimeout(function () {
+            alert("Your Form Successfully Signed up");
+            location.reload();
+        }, 800);
     });
 
     function validateInputs(ths) {
