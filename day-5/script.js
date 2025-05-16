@@ -3,14 +3,17 @@ const URL_BASE = 'http://localhost:3000/books/';
 let idField;
 let titleField;
 let priceField;
+let searchField;
 
 function initComponents() {
     idField = document.getElementById("id");
     titleField = document.getElementById("title");
     priceField = document.getElementById("price");
+    searchField = document.getElementById("search");
 }
 
 function loadTable(){
+    searchField.value = "";
     fetch(URL_BASE)
         .then(response => {
             if (!response.ok) {
@@ -21,9 +24,9 @@ function loadTable(){
         .then(data => {
             const tbody = document.getElementById("tbody");
             let html = "";
-            data.forEach((book, i) => {
+            data.forEach((book) => {
                 html += `<tr>
-                            <th scope="row">${i+1}</th>
+                            <th scope="row">${book.id}</th>
                             <td>${book.title}</td>
                             <td>${book.price}</td>
                             <td><button class="btn btn-warning" onclick="editBook('${book.id}')">Edit</button></td>
@@ -32,6 +35,30 @@ function loadTable(){
             });
             tbody.innerHTML = html;
             console.log('Success:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+function search(){
+    fetch(`${URL_BASE}${searchField.value}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(book => {
+            console.log('Success:', book);
+            const tbody = document.getElementById("tbody");
+            tbody.innerHTML = `<tr>
+                            <th scope="row">${book.id}</th>
+                            <td>${book.title}</td>
+                            <td>${book.price}</td>
+                            <td><button class="btn btn-warning" onclick="editBook('${book.id}')">Edit</button></td>
+                            <td><button class="btn btn-danger" onclick="deleteBook('${book.id}')">Delete</button></td>
+                            </tr>`;
         })
         .catch(error => {
             console.error('Error:', error);
@@ -116,6 +143,6 @@ function deleteBook(id) {
 }
 
 window.onload = function(){
-    loadTable();
     initComponents();
+    loadTable();
 }
