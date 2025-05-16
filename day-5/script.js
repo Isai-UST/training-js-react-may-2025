@@ -1,5 +1,15 @@
 const URL_BASE = 'http://localhost:3000/books/';
 
+let idField;
+let titleField;
+let priceField;
+
+function initComponents() {
+    idField = document.getElementById("id");
+    titleField = document.getElementById("title");
+    priceField = document.getElementById("price");
+}
+
 function loadTable(){
     fetch(URL_BASE)
         .then(response => {
@@ -16,6 +26,7 @@ function loadTable(){
                             <th scope="row">${i+1}</th>
                             <td>${book.title}</td>
                             <td>${book.price}</td>
+                            <td><button class="btn btn-warning" onclick="editBook('${book.id}')">Edit</button></td>
                             <td><button class="btn btn-danger" onclick="deleteBook('${book.id}')">Delete</button></td>
                         </tr>`
             });
@@ -27,19 +38,46 @@ function loadTable(){
         });
 }
 
-function addBook() {
+function editBook(id) {
+    fetch(`${URL_BASE}${id}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            idField.value = id;
+            titleField.value = data.title;
+            priceField.value = data.price;
+            console.log('Success:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+function clearFields() {
+    idField.value = "";
+    titleField.value = "";
+    priceField.value = "";
+}
+
+function sendBook() {
     const data = {};
-    data.title = document.getElementById("title").value;
-    data.price = document.getElementById("price").value;
+
+    data.title = titleField.value;
+    data.price = priceField.value;
+
     const options = {
-        method: 'POST',
+        method: idField.value != "" ? "PUT": "POST",
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
     };
 
-    fetch(URL_BASE, options)
+    fetch(URL_BASE + (idField.value != "" ? idField.value : ""), options)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -48,6 +86,7 @@ function addBook() {
         })
         .then(result => {
             loadTable();
+            clearFields();
             console.log('Success:', result);
         })
         .catch(error => {
@@ -78,4 +117,5 @@ function deleteBook(id) {
 
 window.onload = function(){
     loadTable();
+    initComponents();
 }
