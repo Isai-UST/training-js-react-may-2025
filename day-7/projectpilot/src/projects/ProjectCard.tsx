@@ -17,7 +17,7 @@ function ProjectCard(props: ProjectCardProps) {
   };
   return (
     <div className="card">
-      <img src={project.imageUrl} alt={project.name} />
+      <img src={project.imageUrl ? project.imageUrl : "/assets/no_image.jpg"} alt={project.name} />
       <section className="section dark">
         <Link to={'/projects/' + project.id}>
         <h5 className="strong">

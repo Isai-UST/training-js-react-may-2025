@@ -11,7 +11,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         <div className="card large">
           <img
             className="rounded"
-            src={project.imageUrl}
+            src={project.imageUrl ? project.imageUrl : "/assets/no_image.jpg"}
             alt={project.name}
           />
           <section className="section dark">

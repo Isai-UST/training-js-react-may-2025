@@ -81,6 +81,24 @@ const projectAPI = {
         );
       });
   },
+  post(project: Project) {
+    return fetch("http://localhost:3000", {
+      method: 'POST',
+      body: JSON.stringify(project),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(delay(600))
+      .then(checkStatus)
+      .then(parseJSON)
+      .catch((error: TypeError) => {
+        console.log('log client error ' + error);
+        throw new Error(
+          'There was an error creating the project. Please try again.'
+        );
+      });
+  },
   find(id: number) {
     return fetch(`${url}/${id}`)
       .then(checkStatus)

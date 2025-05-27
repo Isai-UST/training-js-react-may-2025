@@ -23,9 +23,12 @@ export function useSaveProject() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   return useMutation({
-    mutationFn: (project: Project) => projectAPI.put(project),
-    onSuccess: () => {
+    mutationFn: (project: Project) => project.id ? projectAPI.put(project) : projectAPI.post(project),
+    onSuccess: (data, project) => {
       queryClient.invalidateQueries({ queryKey: ["projects"] });
+      if (!project.id) {
+        navigate(`/projects/${data.id}`)
+      }
     }
   });
 }

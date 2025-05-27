@@ -3,6 +3,7 @@ import './App.css'
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router';
 import HomePage from './home/HomePage';
 import ProjectPage from './projects/ProjectPage';
+import ProjectCreate from './projects/ProjectCreate';
 
 function App() {
 
@@ -19,12 +20,16 @@ function App() {
         <NavLink to="/projects" className="button rounded">
           Projects
         </NavLink>
+        <NavLink to="/new" className="button rounded">
+          New Project
+        </NavLink>
       </header>
       <div className="container">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/projects/:id" element={<ProjectPage />} />
+          <Route path="/new" element={<ProjectCreate />} />
         </Routes>
       </div>
     </BrowserRouter>
