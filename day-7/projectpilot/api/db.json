@@ -672,7 +672,7 @@
     },
     {
       "id": 68,
-      "name": "Collier and Sons",
+      "name": "Collier and Son",
       "description": "Organic background support. Molestiae in itaque doloremque magnam et placeat vero accusamus quisquam.",
       "imageUrl": "/assets/placeimg_500_300_arch1.jpg",
       "contractTypeId": 4,
@@ -969,6 +969,24 @@
       "contractSignedOn": "2015-03-31T22:18:57.328Z",
       "budget": 81317,
       "isActive": false
+    },
+    {
+      "id": 100,
+      "name": "proj1",
+      "description": "test",
+      "imageUrl": "",
+      "contractSignedOn": "2025-05-26T20:29:34.765Z",
+      "budget": 3000,
+      "isActive": true
+    },
+    {
+      "name": "project 2",
+      "description": "test 2",
+      "imageUrl": "",
+      "contractSignedOn": "2025-05-26T20:45:02.647Z",
+      "budget": 39449,
+      "isActive": true,
+      "id": 101
     }
   ]
 }
