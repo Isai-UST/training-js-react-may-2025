@@ -1,6 +1,6 @@
 import { Project } from './Project';
-const baseUrl = 'http://localhost:4000';
-const url = `${baseUrl}/projects`;
+const baseUrl = 'http://localhost:3000';
+const url = `${baseUrl}/project`;
 
 function translateStatusToErrorMessage(status: number) {
   switch (status) {
@@ -40,13 +40,17 @@ function delay(ms: number) {
   };
 }
 
-function convertToProjectModels(data: any[]): Project[] {
-  let projects: Project[] = data.map(convertToProjectModel);
+function convertToProjectModels(data: any): Project[] {
+  let projects: Project[] = data.projectData.docs.map(convertToProjectModelDefault);
   return projects;
 }
 
-function convertToProjectModel(item: any): Project {
+function convertToProjectModelDefault(item: any): Project {
   return new Project(item);
+}
+
+function convertToProjectModel(item: any): Project {
+  return new Project(item.existingProject);
 }
 
 const projectAPI = {
@@ -64,7 +68,7 @@ const projectAPI = {
       });
   },
   put(project: Project) {
-    return fetch(`${url}/${project.id}`, {
+    return fetch(`${url}/${project._id}`, {
       method: 'PUT',
       body: JSON.stringify(project),
       headers: {
@@ -82,7 +86,7 @@ const projectAPI = {
       });
   },
   post(project: Project) {
-    return fetch("http://localhost:3000", {
+    return fetch(`${url}`, {
       method: 'POST',
       body: JSON.stringify(project),
       headers: {
@@ -108,6 +112,23 @@ const projectAPI = {
         console.log('log client error ' + error);
         throw new Error(
           'There was an error retrieving the project. Please try again.'
+        );
+      });
+  },
+  delete(id: string) {
+    return fetch(`${url}/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(delay(600))
+      .then(checkStatus)
+      .then(parseJSON)
+      .catch((error: TypeError) => {
+        console.log('log client error ' + error);
+        throw new Error(
+          'There was an error creating the project. Please try again.'
         );
       });
   },

@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, Res, Put, Query } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
+import { PaginationQueryDto } from './dto/pagination-query.dto';
 
 @Controller('project')
 export class ProjectController {
@@ -25,9 +26,9 @@ export class ProjectController {
   }
 
   @Get()
-  async findAll(@Res() response) {
+  async findAll(@Res() response, @Query() paginationQuery: PaginationQueryDto) {
     try {
-      const projectData = await this.projectService.findAll();
+      const projectData = await this.projectService.findAll(paginationQuery);
       return response.status(HttpStatus.OK).json({
           message: 'All projects data found successfully',
           projectData,
@@ -37,26 +38,42 @@ export class ProjectController {
     }
   }
 
-  @Get(':id')
-  findOne(@Res() response, @Param('id') id: string) {
+  @Get('/:id')
+  async findOne(@Res() response, @Param('id') id: string) {
     try {
-      const existingStudent = await this.projectService.findOne(+id);
+      const existingProject = await this.projectService.findOne(id);
       return response.status(HttpStatus.OK).json({
-          message: 'Student found successfully',
-          existingStudent,
+          message: 'Project found successfully',
+          existingProject,
       });
     } catch (err) {
       return response.status(err.status).json(err.response);
     }
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
-    return this.projectService.update(+id, updateProjectDto);
+  @Put('/:id')
+  async update(@Res() response, @Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
+    try {
+      const existingProject = await this.projectService.update(id, updateProjectDto);
+      return response.status(HttpStatus.OK).json({
+          message: 'Project has been successfully updated',
+          existingProject,
+      });
+    } catch (err) {
+      return response.status(err.status).json(err.response);
+    }
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.projectService.remove(+id);
+  @Delete('/:id')
+  async remove(@Res() response, @Param('id') id: string) {
+    try {
+      const deletedProject = await this.projectService.remove(id);
+      return response.status(HttpStatus.OK).json({
+          message: 'Project deleted successfully',
+          deletedProject,
+      });
+    } catch (err) {
+      return response.status(err.status).json(err.response);
+    }
   }
 }

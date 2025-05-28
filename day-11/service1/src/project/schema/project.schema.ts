@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import * as mongoosePaginate from 'mongoose-paginate-v2';
 
 @Schema()
 export class Project {
@@ -28,4 +29,8 @@ export class Project {
     isActive: boolean;
 }
 
-export const ProjectSchema = SchemaFactory.createForClass(Project);
+const ProjectSchema = SchemaFactory.createForClass(Project);
+
+ProjectSchema.plugin(mongoosePaginate);
+
+export { ProjectSchema };

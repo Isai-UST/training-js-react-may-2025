@@ -1,3 +1,4 @@
+import { Transform } from "class-transformer";
 import { IsDate, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength, Min, MinLength } from "class-validator";
 
 export class CreateProjectDto {
@@ -14,13 +15,15 @@ export class CreateProjectDto {
     readonly description: string;
 
     @IsOptional()
-    readonly imageUrl: string = "/assets/no_image.jpg";
+    @Transform( ({ value }) => value ? value: "/assets/no_image.jpg" )
+    readonly imageUrl: string;
 
     @IsOptional()
     @IsNumber()
     readonly contractTypeId: number = 1;
 
     @IsOptional()
+    @Transform( ({ value }) => new Date(value))
     @IsDate()
     readonly contractSignedOn: Date = new Date();
 

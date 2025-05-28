@@ -19,14 +19,12 @@ function ProjectList({ projects }: ProjectListProps) {
   };
 
   const items = projects.map(project => (
-      <div key={project.id} className="cols-sm">
-        <div key={project.id} className="cols-sm">
+      <div key={project._id} className="cols-sm">
           {project === projectBeingEdited ? (
             <ProjectForm project={project} onCancel={cancelEditing} />
           ) : (
             <ProjectCard project={project} onEdit={handleEdit} />
           )}
-        </div>
     </div>
   ));
   return <div className="row">{items}</div>;

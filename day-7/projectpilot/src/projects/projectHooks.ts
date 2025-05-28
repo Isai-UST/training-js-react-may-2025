@@ -23,12 +23,22 @@ export function useSaveProject() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   return useMutation({
-    mutationFn: (project: Project) => project.id ? projectAPI.put(project) : projectAPI.post(project),
+    mutationFn: (project: Project) => project._id ? projectAPI.put(project) : projectAPI.post(project),
     onSuccess: (data, project) => {
       queryClient.invalidateQueries({ queryKey: ["projects"] });
-      if (!project.id) {
-        navigate(`/projects/${data.id}`)
+      if (!project._id) {
+        navigate(`/projects/${data.newProject._id}`)
       }
+    }
+  });
+}
+
+export function useDeleteProject() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: number) => projectAPI.delete(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
     }
   });
 }
