@@ -16,9 +16,16 @@ export class ProjectService {
   }
 
   async findAll(paginationQuery: PaginationQueryDto): Promise<IProject[]> {
-    const { page = 1, limit = 10 } = paginationQuery;
+    const { page = 1, limit = 10, name } = paginationQuery;
 
-    const projectData = await (this.projectModel as any).paginate({}, {
+    const filter: Record<string, any> = {};
+
+    // Add name filter (case-insensitive partial match)
+    if (name) {
+      filter.name = { $regex: name, $options: 'i' };
+    }
+
+    const projectData = await (this.projectModel as any).paginate(filter, {
       page,
       limit,
     });

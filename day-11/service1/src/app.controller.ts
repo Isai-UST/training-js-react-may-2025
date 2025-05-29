@@ -1,6 +1,5 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { ProjectDto } from './dtos/ProjectDto';
 
 @Controller()
 export class AppController {
@@ -11,8 +10,4 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Post()
-  createProject(@Body() createProjectDto: ProjectDto) {
-    return this.appService.createProject(createProjectDto);
-  }
 }

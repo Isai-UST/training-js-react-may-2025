@@ -54,8 +54,8 @@ function convertToProjectModel(item: any): Project {
 }
 
 const projectAPI = {
-  get(page = 1, limit = 10) {
-    return fetch(`${url}?_page=${page}&_limit=${limit}&_sort=id&_order=desc`)
+  get(page = 1, limit = 10, name = '') {
+    return fetch(`${url}?page=${page}&limit=${limit}&name=${name}`)
       .then(delay(600))
       .then(checkStatus)
       .then(parseJSON)
@@ -103,7 +103,7 @@ const projectAPI = {
         );
       });
   },
-  find(id: number) {
+  find(id: any) {
     return fetch(`${url}/${id}`)
       .then(checkStatus)
       .then(parseJSON)

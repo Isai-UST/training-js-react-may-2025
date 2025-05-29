@@ -10,13 +10,25 @@ function ProjectsPage() {
     isFetching,
     page,
     setPage,
+    setName,
     isPreviousData,
   } = useProjects();
 
   return (
     <>
       <h1>Projects</h1>
-
+      <div className="row">
+        <div className="col-sm-4">
+          <input type='text'  />
+          <button
+            className="button"
+            onClick={() => setPage((oldPage) => oldPage - 1)}
+            disabled={page === 0}
+          >
+            Previous
+          </button>
+        </div>
+      </div>
       {data ? (
         <>
           {isFetching && !isPending && (

@@ -10,13 +10,14 @@ import { useNavigate } from 'react-router';
 
 export function useProjects() {
   const [page, setPage] = useState(0);
+  const [name, setName] = useState("");
   let queryInfo = useQuery({
     queryKey: ['projects', page],
-    queryFn: () => projectAPI.get(page + 1),
+    queryFn: () => projectAPI.get(page + 1,undefined,name),
     placeholderData: (previousData) => previousData,
   });
   console.log(queryInfo);
-  return { ...queryInfo, page, setPage };
+  return { ...queryInfo, page, setPage, setName };
 }
 
 export function useSaveProject() {
@@ -36,7 +37,7 @@ export function useSaveProject() {
 export function useDeleteProject() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: number) => projectAPI.delete(id),
+    mutationFn: (id: string) => projectAPI.delete(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["projects"] });
     }
