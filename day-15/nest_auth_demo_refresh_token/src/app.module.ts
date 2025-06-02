@@ -1,12 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ProjectModule } from './project/project.module';
-import { UserModule } from './user/user.module';
-import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import * as Joi from 'joi';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -24,11 +21,8 @@ import * as Joi from 'joi';
       },
     }),
     MongooseModule.forRoot(process.env.MONGODB_URI),
-    UserModule,
+    UsersModule,
     AuthModule,
-    ProjectModule
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

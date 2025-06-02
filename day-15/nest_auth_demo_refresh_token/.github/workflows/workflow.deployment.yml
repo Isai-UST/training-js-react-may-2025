@@ -1,0 +1,69 @@
+name: Deployment
+on: [push, workflow_dispatch]
+env:
+  MONGODB_URI: ${{ secrets.MONGODB_URI }}
+  ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
+  ACCESS_TOKEN_EXPIRATION: ${{ secrets.ACCESS_TOKEN_EXPIRATION }}
+  REFRESH_TOKEN_SECRET: ${{ secrets.REFRESH_TOKEN_SECRET }}
+  REFRESH_TOKEN_EXPIRATION: ${{ secrets.REFRESH_TOKEN_EXPIRATION }}
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    outputs:
+      npm-cache-dir: ${{ steps.step_dir.outputs.dir }}
+    steps:
+      - name: Download Code
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+      - name: Get npm dir
+        id: step_dir
+        run: echo "dir=$(npm config get cache)" >> "$GITHUB_OUTPUT"
+      - name: Set Cache For NPM Packages
+        id: step_cache_npm_dir
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: npm-cache-${{ hashFiles('**/package-lock.json') }}
+      - if: ${{ steps.step_cache_npm_dir.outputs.cache-hit != 'true' }}
+        name: List the state of node modules
+        continue-on-error: true
+        run: npm list
+      - name: Install Dependencies
+        run: npm ci
+      - name: Run Linter
+        run: npm run lint
+  test:
+    needs: [lint]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Code
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+      # - name: Set Cache For NPM Packages
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: ~/.npm
+      #     key: npm-cache-${{ hashFiles('**/package-lock.json') }}
+      - name: Install Dependencies
+        run: npm ci
+      - name: Run Tests
+        run: npm run test
+  deploy:
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Code
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+      - name: Set Cache For NPM Packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: npm-cache-${{ hashFiles('**/package-lock.json') }}
+      - name: Install Dependencies and Deploy
+        run: |
+          npm ci
+          echo "Deployment Successfull"
