@@ -12,7 +12,7 @@ export function useProjects() {
   const [page, setPage] = useState(0);
   const [name, setName] = useState("");
   let queryInfo = useQuery({
-    queryKey: ['projects', page],
+    queryKey: ['projects', page, name],
     queryFn: () => projectAPI.get(page + 1,undefined,name),
     placeholderData: (previousData) => previousData,
   });

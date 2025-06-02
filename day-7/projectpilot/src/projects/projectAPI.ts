@@ -1,3 +1,4 @@
+import authHeader from '../services/auth-header';
 import { Project } from './Project';
 const baseUrl = 'http://localhost:3000';
 const url = `${baseUrl}/project`;
@@ -55,7 +56,12 @@ function convertToProjectModel(item: any): Project {
 
 const projectAPI = {
   get(page = 1, limit = 10, name = '') {
-    return fetch(`${url}?page=${page}&limit=${limit}&name=${name}`)
+    return fetch(`${url}?page=${page}&limit=${limit}&name=${name}`,{
+      method: 'GET',
+      headers: {
+        ...authHeader()
+      }
+    })
       .then(delay(600))
       .then(checkStatus)
       .then(parseJSON)
@@ -72,7 +78,8 @@ const projectAPI = {
       method: 'PUT',
       body: JSON.stringify(project),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        ...authHeader()
       }
     })
       .then(delay(600))
@@ -90,7 +97,8 @@ const projectAPI = {
       method: 'POST',
       body: JSON.stringify(project),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        ...authHeader()
       }
     })
       .then(delay(600))
@@ -104,7 +112,12 @@ const projectAPI = {
       });
   },
   find(id: any) {
-    return fetch(`${url}/${id}`)
+    return fetch(`${url}/${id}`,{
+      method: 'GET',
+      headers: {
+        ...authHeader()
+      }
+    })
       .then(checkStatus)
       .then(parseJSON)
       .then(convertToProjectModel)
@@ -119,7 +132,8 @@ const projectAPI = {
     return fetch(`${url}/${id}`, {
       method: 'DELETE',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        ...authHeader()
       }
     })
       .then(delay(600))

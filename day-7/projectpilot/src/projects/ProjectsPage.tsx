@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useProjects } from './projectHooks';
 import ProjectList from './ProjectList';
 
@@ -14,18 +15,25 @@ function ProjectsPage() {
     isPreviousData,
   } = useProjects();
 
+  const [nameInput, setNameInput] = useState("");
+
+  const handleSearch = () => {
+    setName(nameInput); // Trigger query
+    setPage(1); // Reset to first page
+  };
+
   return (
     <>
       <h1>Projects</h1>
       <div className="row">
         <div className="col-sm-4">
-          <input type='text'  />
+          <input type='text' value={nameInput} onChange={(e) => setNameInput(e.target.value)}  />
           <button
-            className="button"
-            onClick={() => setPage((oldPage) => oldPage - 1)}
+            className="primary"
+            onClick={handleSearch}
             disabled={page === 0}
           >
-            Previous
+            Search
           </button>
         </div>
       </div>
