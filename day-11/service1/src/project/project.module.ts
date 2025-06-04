@@ -5,7 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ProjectSchema } from './schema/project.schema';
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://localhost:27017',{dbName: 'projectdb'}),
+  imports: [
     MongooseModule.forFeature([{ name: 'Project', schema: ProjectSchema }])],
   controllers: [ProjectController],
   providers: [ProjectService],

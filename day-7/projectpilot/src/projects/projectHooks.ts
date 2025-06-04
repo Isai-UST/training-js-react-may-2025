@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { projectAPI } from './projectAPI';
 import {
   useMutation,
@@ -11,9 +11,14 @@ import { useNavigate } from 'react-router';
 export function useProjects() {
   const [page, setPage] = useState(0);
   const [name, setName] = useState("");
+
+  useEffect(() => {
+    setPage(0);
+  }, [name]);
+
   let queryInfo = useQuery({
     queryKey: ['projects', page, name],
-    queryFn: () => projectAPI.get(page + 1,undefined,name),
+    queryFn: () => projectAPI.get(page + 1,name),
     placeholderData: (previousData) => previousData,
   });
   console.log(queryInfo);

@@ -11,15 +11,13 @@ function ProjectsPage() {
     isFetching,
     page,
     setPage,
-    setName,
-    isPreviousData,
+    setName
   } = useProjects();
 
   const [nameInput, setNameInput] = useState("");
 
   const handleSearch = () => {
     setName(nameInput); // Trigger query
-    setPage(1); // Reset to first page
   };
 
   return (
@@ -31,7 +29,6 @@ function ProjectsPage() {
           <button
             className="primary"
             onClick={handleSearch}
-            disabled={page === 0}
           >
             Search
           </button>
@@ -57,9 +54,7 @@ function ProjectsPage() {
                 <button
                   className="button"
                   onClick={() => {
-                    if (!isPreviousData) {
                       setPage((oldPage) => oldPage + 1);
-                    }
                   }}
                   disabled={data.length != 10}
                 >
@@ -91,17 +86,3 @@ function ProjectsPage() {
 }
 
 export default ProjectsPage;
-
-// this commented code is unnecessary it's just here to show you the pattern
-// return (
-//   <>
-//     <h1>Header</h1>
-//     {data ? (
-//       <p>data</p>
-//     ) : isLoading ? (
-//       <p>Loading...</p>
-//     ) : isError ? (
-//       <p>Error Message</p>
-//     ) : null}
-//   </>
-// );

@@ -42,7 +42,7 @@ function ProjectCard(props: ProjectCardProps) {
         </button>
 	<button className="bordered secondary"
             onClick={() => {
-            handleDeleteClick(project);
+            handleDeleteClick();
           }}
         >
             <span className="icon-alert inverse"></span>
