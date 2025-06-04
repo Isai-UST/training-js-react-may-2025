@@ -1,4 +1,5 @@
-import authHeader from '../services/auth-header';
+import authHeader from '../auth/services/auth-header';
+import { authService } from '../auth/services/auth.service';
 import { Project } from './Project';
 const baseUrl = 'http://localhost:3000';
 const url = `${baseUrl}/project`;
@@ -14,10 +15,13 @@ function translateStatusToErrorMessage(status: number) {
   }
 }
 
-function checkStatus(response: any) {
+async function checkStatus(response: any) {
   if (response.ok) {
     return response;
   } else {
+    if (response.status == 401){
+      await authService.refreshToken();
+    }
     const httpErrorInfo = {
       status: response.status,
       statusText: response.statusText,
@@ -55,8 +59,8 @@ function convertToProjectModel(item: any): Project {
 }
 
 const projectAPI = {
-  get(page = 1, limit = 10, name = '') {
-    return fetch(`${url}?page=${page}&limit=${limit}&name=${name}`,{
+  get(page = 1, name = '') {
+    return fetch(`${url}?page=${page}&limit=10&name=${name}`,{
       method: 'GET',
       headers: {
         ...authHeader()
@@ -142,7 +146,7 @@ const projectAPI = {
       .catch((error: TypeError) => {
         console.log('log client error ' + error);
         throw new Error(
-          'There was an error creating the project. Please try again.'
+          'There was an error deleting the project. Please try again.'
         );
       });
   },
